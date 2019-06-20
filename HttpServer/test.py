@@ -5,6 +5,7 @@ from socket import *
 import json
 
 s = socket()
+s.setsockopt(SOL_SOCKET,SO_REUSEADDR,1)
 s.bind(("0.0.0.0", 8080))
 s.listen(5)
 c, addr = s.accept()

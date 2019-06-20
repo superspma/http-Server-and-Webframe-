@@ -7,7 +7,7 @@ httpserver部分 主程序
 from socket import *
 from threading import Thread
 from config import *
-import re
+import re, sys
 import json
 
 # 服务器地址
@@ -83,22 +83,24 @@ class HTTPServer:
     # 将data组织为response 发送给浏览器
     def response(self, connfd, data):
         if data['status'] == "200":
-            responseHeaders = "HTTP/1.1 200 OK\r\n"
-            responseHeaders += "Connect-Type:text/html\r\n"
-            responseHeaders += "\r\n"
-            responseBody = data['data']
+            self.http_(connfd, data)
+
         elif data['status'] == "404":
-            responseHeaders = "HTTP/1.1 404 OK\r\n"
-            responseHeaders += "Connect-Type:text/html\r\n"
-            responseHeaders += "\r\n"
-            responseBody = data['data']
+            self.http_(connfd, data)
+
         elif data['status'] == "500":
             pass
 
-        # 将数据发送
-        response_data = responseHeaders + responseBody
-        connfd.send(response_data.encode())
+    def http_(self, connfd, data):
+        response = "HTTP/1.1 %s OK\r\n" \
+                   "Connect-Type:text/html\r\n" \
+                   "\r\n" \
+                   "%s" % (data['status'], data['data'])
+        connfd.send(response.encode())
 
 
 httpd = HTTPServer()
-httpd.server_forever()
+try:
+    httpd.server_forever()  # 启动httpserver
+except Exception:
+    sys.exit("Httpserver 退出!")
