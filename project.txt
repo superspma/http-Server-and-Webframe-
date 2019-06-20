@@ -1,0 +1,22 @@
+1.項目開發流程
+
+扩展
+JSON ---> JavaScript
+Json : 一种数据交互格式
+    格式: "{"a":1,"b":"xxx..."}"
+
+import json
+将python字典转换为json :  json.dumps(dict)
+将json字串转换为python字典:  json.loads(json)
+示例:
+    In [1]: import json
+
+    In [2]: d={"a":1,"b":"xxx..."}
+
+    In [4]: data=json.dumps(d)
+
+    In [5]: data
+    Out[5]: '{"a": 1, "b": "xxx..."}'
+
+    In [6]: json.loads(data)
+    Out[6]: {'a': 1, 'b': 'xxx...'}
