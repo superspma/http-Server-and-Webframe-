@@ -29,8 +29,8 @@ def connect_frame(env):
     # 将env转换为json
     data = json.dumps(env)
     s.send(data.encode())
-    # 接收从frame返回的数据 (1M)
-    data = s.recv(1024 * 1024).decode()
+    # 接收从frame返回的数据 (10M)
+    data = s.recv(1024 * 1024*10).decode()
     return json.loads(data)  # 字典
 
 
@@ -66,7 +66,7 @@ class HTTPServer:
     # 处理浏览器请求
     def handle(self, connfd):
         request = connfd.recv(4096).decode()
-        print(request)
+        # print(request)
         pattern = r"(?P<method>[A-Z]+)\s+(?P<info>/\S*)"
         try:
             # env 格式 {method:'GET',info:'/'}
@@ -102,5 +102,5 @@ class HTTPServer:
 httpd = HTTPServer()
 try:
     httpd.server_forever()  # 启动httpserver
-except Exception:
-    sys.exit("Httpserver 退出!")
+except:
+    sys.exit("Httpserver Exit!")

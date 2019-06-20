@@ -60,7 +60,7 @@ class Application:
 
     # 处理网页请求
     def get_html(self, info):
-        print(info)
+        # print(info)
         if info == "/":
             filename = STATIC_DIR + "/index.html"
         else:
@@ -85,5 +85,5 @@ class Application:
 app = Application()
 try:
     app.start()  # 启动应用
-except Exception:
-    sys.exit("网站后端关闭")
+except:
+    sys.exit("Webframe Exit!")
